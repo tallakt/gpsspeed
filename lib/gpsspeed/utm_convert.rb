@@ -1,7 +1,10 @@
 module GPSSpeed
   class UTM
     # http://www.koders.com/cpp/fid56D52408FAC344874E65BF9A1C54F3731C96A39B.aspx
-    attr_reader lat, lon, northing, easting, xzone, yzone
+    attr_reader :lat, :lon, :northing, :easting, :xzone, :yzone
+
+    Fe = 500000.0
+    Ok = 0.9996
 
     ZoneChars = "CDEFGHJKLMNPQRSTUVWX"
 
@@ -34,8 +37,8 @@ module GPSSpeed
         @yzone = '*'
       end
 
-      latRad = @lat * Math.PI / 180.0
-      lonRad = @lon * Math.PI / 180.0
+      latRad = @lat * Math::PI / 180.0
+      lonRad = @lon * Math::PI / 180.0
       recf = 1.0 / f
       b = a * (recf - 1.0) / recf
       eSquared = calc_e_squared(a, b)
@@ -50,7 +53,7 @@ module GPSSpeed
       dp = 35.0 * a * ((tn * tn * tn) - (tn * tn * tn * tn) + 11.0 *
         (tn * tn * tn * tn * tn) / 16.0) / 48.0
       ep = 315.0 * a * ((tn * tn * tn * tn) - (tn * tn * tn * tn * tn)) / 512.0
-      olam = (@xzone * 6 - 183) * Math.PI / 180.0
+      olam = (@xzone * 6 - 183) * Math::PI / 180.0
       dlam = lonRad - olam
       s = Math.sin latRad
       c = Math.cos latRad
@@ -58,10 +61,10 @@ module GPSSpeed
       eta = e2Squared * (c * c);
       sn = sphsn a, eSquared, latRad
       tmd = sphtmd ap, bp, cp, dp, ep, latRad
-      t1 = tmd * ok
-      t2 = sn * s * c * ok / 2.0
-      t3 = sn * s * (c * c * c) * ok * (5.0 - (t * t) + 9.0 * eta + 4.0
-        * (eta * eta)) / 24.0
+      t1 = tmd * Ok
+      t2 = sn * s * c * Ok / 2.0
+      t3 = sn * s * (c * c * c) * Ok * (5.0 - (t * t) + 9.0 * eta + 4.0 *
+        (eta * eta)) / 24.0
 
       if (latRad < 0.0) 
         nfn = 10000000.0
@@ -71,9 +74,9 @@ module GPSSpeed
 
       @northing = nfn + t1 + (dlam * dlam) * t2 + (dlam * dlam * dlam *
         dlam) * t3 + (dlam * dlam * dlam * dlam * dlam * dlam) + 0.5
-      t6 = sn * c * ok
+      t6 = sn * c * Ok
       t7 = sn * (c * c * c) * (1.0 - (t * t) + eta) / 6.0
-      @easting = fe + dlam * t6 + (dlam * dlam * dlam) * t7 + 0.5
+      @easting = Fe + dlam * t6 + (dlam * dlam * dlam) * t7 + 0.5
       @northing = [@northing, 9999999.0].min
   end
 
@@ -99,7 +102,7 @@ module GPSSpeed
     end
 
     def sphtmd(ap, bp, cp, dp, ep, sphi)
-      (ap * sphi) - (bp * Math.sin (2.0 * sphi)) + (cp * Math.sin(4.0 * sphi)) -
+      (ap * sphi) - (bp * Math.sin(2.0 * sphi)) + (cp * Math.sin(4.0 * sphi)) -
           (dp * Math.sin(6.0 * sphi)) + (ep * Math.sin(8.0 * sphi))
     end
   end
