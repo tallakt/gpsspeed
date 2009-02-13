@@ -1,8 +1,8 @@
 require 'rexml/document'
 require 'ostruct'
-require 'gpsspeed/utm_convert'
+require 'geoutm'
 
-class Float
+class FloatA # necessary dt rexml bug
   def each
   end
 end
@@ -14,7 +14,6 @@ module GPSSpeed
       @opt = {}
       @opt[:length] = 500 # Minimum required distance 
       read_gpx filename
-      calc_utm
       list_distance_speeds
       filter_distance_speeds
       print_results
@@ -33,20 +32,14 @@ module GPSSpeed
         lon = trkpt.attributes['lon']
         date_time = DateTime.strptime trkpt.get_elements('time').first.text
         pp = OpenStruct.new
-        pp.lat = lat.to_f
-        pp.lon = lon.to_f
+        pp.latlon = GeoUtm::LatLon.new lat.to_f, lon.to_f
+        pp.utm = pp.latlon.to_utm
         pp.date_time = date_time
         @points << pp
       end
       puts "Read #{@points.size} track points"
     end
 
-
-    def calc_utm
-      @points.each do |p|
-        p.utm = UTM.new p.lat, p.lon
-      end
-    end
 
     def list_distance_speeds
       @dist_speed_list = []
@@ -67,8 +60,8 @@ module GPSSpeed
     end
 
     def distance(a, b)
-      Math.sqrt((a.utm.northing - b.utm.northing) ** 2 + 
-                (a.utm.easting - b.utm.easting) ** 2)
+      Math.sqrt((a.utm.n - b.utm.n) ** 2 + 
+                (a.utm.e - b.utm.e) ** 2)
     end
 
     def filter_distance_speeds
