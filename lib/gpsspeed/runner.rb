@@ -1,6 +1,7 @@
 require 'rexml/document'
 require 'ostruct'
 require 'geoutm'
+require 'enumerator'
 
 class FloatA # necessary dt rexml bug
   def each
@@ -12,7 +13,7 @@ module GPSSpeed
     def initialize(argv)
       filename, = argv
       @opt = {}
-      @opt[:length] = 500 # Minimum required distance 
+      @opt[:length] = 100 # Minimum required distance 
       read_gpx filename
       list_distance_speeds
       filter_distance_speeds
@@ -33,25 +34,24 @@ module GPSSpeed
         date_time = DateTime.strptime trkpt.get_elements('time').first.text
         pp = OpenStruct.new
         pp.latlon = GeoUtm::LatLon.new lat.to_f, lon.to_f
-        pp.utm = pp.latlon.to_utm
+        pp.utm = pp.latlon.to_utm GeoUtm::Ellipsoid::lookup(:wgs84), @points.first && @points.first.utm.zone
         pp.date_time = date_time
         @points << pp
       end
       puts "Read #{@points.size} track points"
     end
 
-
     def list_distance_speeds
       @dist_speed_list = []
       (0..(@points.size - 2)).each do |i|
         ((i + 1)..(@points.size - 1)).each do |j|
-          dist = distance @points[i], @points[j]
+          dist = @points[i].utm.distance_to @points[j].utm
           next if dist < @opt[:length]
           ds = OpenStruct.new
           ds.distance = dist
           ds.begin = i
           ds.end = j
-          ds.dt = (@points[j].date_time - @points[i].date_time) * 60.0 * 60.0
+          ds.dt = (@points[j].date_time - @points[i].date_time) * 24.0 * 60.0 * 60.0
           ds.speed_ms = dist / ds.dt
           @dist_speed_list << ds
           break
@@ -59,32 +59,28 @@ module GPSSpeed
       end
     end
 
-    def distance(a, b)
-      Math.sqrt((a.utm.n - b.utm.n) ** 2 + 
-                (a.utm.e - b.utm.e) ** 2)
-    end
-
     def filter_distance_speeds
       @dist_speed_list.sort! {|a, b| a.speed_ms <=> b.speed_ms }.reverse!
       @dist_speed_list.reject! do |candidate|
         intersects_previous candidate
-        false
       end
     end
 
     def intersects_previous candidate
-      result = []
+      intersects = nil
       @dist_speed_list[0...@dist_speed_list.index(candidate)].each do |prev|
         used = prev.begin..prev.end
-        result ||= (prev.begin..prev.end).to_a & (candidate.begin..candidate.end).to_a
-        break if result
+        intersects ||= ((prev.begin..prev.end).to_a & (candidate.begin..candidate.end).to_a).any?
+        break if intersects
       end
-      result.any?
+      intersects
     end
 
     def print_results
-      @dist_speed_list[1..10].each do |ds|
-        puts '%6.4f    %i    %i' % [ds.speed_ms, ds.begin, ds.end]
+      puts '%12s  %4s  %4s  %4s  %12s  %12s' % ['Speed [m/s]', '#frm', '#to', '#n', 'time [s]', 'Distance [m]']
+      (@dist_speed_list[0..39] || []).each do |ds|
+        puts '%12.4f  %4i  %4i  %4i  %12.2f  %12.1f' % [ds.speed_ms, ds.begin, ds.end, ds.end - ds.begin + 1, 
+          ds.dt, ds.distance]
       end
     end
   end
