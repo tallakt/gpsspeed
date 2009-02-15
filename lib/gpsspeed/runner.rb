@@ -96,6 +96,7 @@ module GPSSpeed
         pp.date_time = date_time
         @points << pp
       end
+      @points.sort! {|a, b| a.date_time <=> b.date_time }
       # puts "Read #{@points.size} track points"
     end
 
