@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="EasyGPS 2.9.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd http://www.topografix.com/GPX/gpx_overlay/0/3 http://www.topografix.com/GPX/gpx_overlay/0/3/gpx_overlay.xsd http://www.topografix.com/GPX/gpx_modified/0/1 http://www.topografix.com/GPX/gpx_modified/0/1/gpx_modified.xsd">
+<metadata>
+<bounds minlat="58.14600494" minlon="8.06696213" maxlat="58.14737019" maxlon="8.06742934"/>
+<extensions>
+<time xmlns="http://www.topografix.com/GPX/gpx_modified/0/1">2009-02-14T17:46:22.546Z</time>
+</extensions>
+</metadata>
+<trk>
+<name>ACTIVE LOG</name>
+<type>GPS Tracklog</type>
+<extensions>
+<time xmlns="http://www.topografix.com/GPX/gpx_modified/0/1">2009-02-14T17:46:22.546Z</time>
+<label xmlns="http://www.topografix.com/GPX/gpx_overlay/0/3">
+<label_text>ACTIVE LOG</label_text>
+</label>
+</extensions>
+<trkseg>
+<trkpt lat="58.14737019" lon="8.06705249">
+<ele>49.165</ele>
+<time>2009-02-14T17:37:49Z</time>
+</trkpt>
+<trkpt lat="58.14737019" lon="8.06704436">
+<ele>49.165</ele>
+<time>2009-02-14T17:37:58Z</time>
+</trkpt>
+<trkpt lat="58.14722820" lon="8.06718165">
+<ele>50.126</ele>
+<time>2009-02-14T17:38:08Z</time>
+</trkpt>
+<trkpt lat="58.14720448" lon="8.06722624">
+<ele>50.607</ele>
+<time>2009-02-14T17:38:10Z</time>
+</trkpt>
+<trkpt lat="58.14716232" lon="8.06725860">
+<ele>51.568</ele>
+<time>2009-02-14T17:38:14Z</time>
+</trkpt>
+<trkpt lat="58.14704950" lon="8.06726572">
+<ele>53.010</ele>
+<time>2009-02-14T17:38:21Z</time>
+</trkpt>
+<trkpt lat="58.14684892" lon="8.06729271">
+<ele>54.932</ele>
+<time>2009-02-14T17:38:35Z</time>
+</trkpt>
+<trkpt lat="58.14662772" lon="8.06729011">
+<ele>55.894</ele>
+<time>2009-02-14T17:38:49Z</time>
+</trkpt>
+<trkpt lat="58.14640015" lon="8.06726723">
+<ele>55.894</ele>
+<time>2009-02-14T17:39:05Z</time>
+</trkpt>
+<trkpt lat="58.14620460" lon="8.06730763">
+<ele>55.894</ele>
+<time>2009-02-14T17:39:19Z</time>
+</trkpt>
+<trkpt lat="58.14600494" lon="8.06742934">
+<ele>55.894</ele>
+<time>2009-02-14T17:39:35Z</time>
+</trkpt>
+<trkpt lat="58.14602799" lon="8.06742380">
+<ele>56.855</ele>
+<time>2009-02-14T17:39:47Z</time>
+</trkpt>
+<trkpt lat="58.14605054" lon="8.06740771">
+<ele>55.894</ele>
+<time>2009-02-14T17:39:50Z</time>
+</trkpt>
+<trkpt lat="58.14615163" lon="8.06733387">
+<ele>56.375</ele>
+<time>2009-02-14T17:40:00Z</time>
+</trkpt>
+<trkpt lat="58.14628783" lon="8.06729347">
+<ele>55.894</ele>
+<time>2009-02-14T17:40:11Z</time>
+</trkpt>
+<trkpt lat="58.14641775" lon="8.06725969">
+<ele>56.855</ele>
+<time>2009-02-14T17:40:22Z</time>
+</trkpt>
+<trkpt lat="58.14660341" lon="8.06729430">
+<ele>56.375</ele>
+<time>2009-02-14T17:40:36Z</time>
+</trkpt>
+<trkpt lat="58.14680022" lon="8.06732062">
+<ele>53.490</ele>
+<time>2009-02-14T17:40:52Z</time>
+</trkpt>
+<trkpt lat="58.14694313" lon="8.06729741">
+<ele>53.490</ele>
+<time>2009-02-14T17:41:04Z</time>
+</trkpt>
+<trkpt lat="58.14712200" lon="8.06728316">
+<ele>52.529</ele>
+<time>2009-02-14T17:41:17Z</time>
+</trkpt>
+<trkpt lat="58.14720347" lon="8.06722314">
+<ele>51.568</ele>
+<time>2009-02-14T17:41:26Z</time>
+</trkpt>
+<trkpt lat="58.14721219" lon="8.06718978">
+<ele>51.087</ele>
+<time>2009-02-14T17:41:28Z</time>
+</trkpt>
+<trkpt lat="58.14725644" lon="8.06715516">
+<ele>51.087</ele>
+<time>2009-02-14T17:41:36Z</time>
+</trkpt>
+</trkseg>
+<trkseg>
+<trkpt lat="58.14732275" lon="8.06696213">
+<ele>53.971</ele>
+<time>2009-02-14T17:43:02Z</time>
+</trkpt>
+</trkseg>
+</trk>
+<extensions>
+</extensions>
+</gpx>

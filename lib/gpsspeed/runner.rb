@@ -2,6 +2,7 @@ require 'rexml/document'
 require 'ostruct'
 require 'geoutm'
 require 'enumerator'
+require 'optparse'
 
 class FloatA # necessary dt rexml bug
   def each
@@ -10,14 +11,71 @@ end
 
 module GPSSpeed
   class Runner
+    DEFAULT_LENGTH = 500
+    DEFAULT_SPEED_FMT = 'm/s'
+    DEFAULT_LENGTH_FMT = 'm'
+
+    LengthUnits = {
+      'm' => 1.0,
+      'ft' => 3.2808399,
+      'km' => 0.001,
+      'miles' => 0.000621371192,
+      'nm' => 0.000539956803
+    }
+
+    SpeedUnits = {
+      'm/s' => 1.0,
+      'knots' => 1.9438612860586,
+      'km/h' => 3.6,
+      'mph' => 2.23693629
+    }
+
     def initialize(argv)
-      filename, = argv
+      # Command line options
       @opt = {}
-      @opt[:length] = 100 # Minimum required distance 
+      parse_options argv
+      @opt[:length] ||= DEFAULT_LENGTH # Minimum required distance 
+      @opt[:speed_fmt] ||= DEFAULT_SPEED_FMT
+      @opt[:length_fmt] ||= DEFAULT_LENGTH_FMT
+
+      filename, = argv
+
       read_gpx filename
       list_distance_speeds
       filter_distance_speeds
       print_results
+    end
+
+    def parse_length(l)
+      LengthUnits.each do |name, factor|
+        m = l.match /^(\d+(.\d+)?)\s?#{name}$/i
+        return m[1].to_f * factor if m
+      end
+      m = l.match /^(\d+(.\d+)?)$/i
+      throw RuntimeError.new('Illegal length format: ' + l) unless m
+      m[1].to_f
+    end
+
+    def parse_options(argv)
+      OptionParser.new do |op|
+        op.banner = "Usage: gpsspeed [options] <input.gpx>"
+        op.on("-l", "--length DIST", "Minimum required length (default #{DEFAULT_LENGTH}m)",
+                "  Accepts #{LengthUnits.keys.join ','}") do |l|
+          @opt[:length] = parse_length l
+        end
+        op.on("-s", "--speed-format FMT", "Select speed format (default #{DEFAULT_SPEED_FMT})",
+                "  Accepts #{SpeedUnits.keys.join ','}") do |fmt|
+          @opt[:speed_fmt] = fmt
+        end
+        op.on("-f", "--length-format FMT", "Select length format (default #{DEFAULT_LENGTH_FMT})",
+                "  Accepts #{LengthUnits.keys.join ','}") do |fmt|
+          @opt[:length_fmt] = fmt
+        end
+        op.on_tail("-h", "--help", "Show this message") do
+          puts op
+          exit
+        end
+      end.parse! argv
     end
 
     def read_gpx filename
@@ -38,7 +96,7 @@ module GPSSpeed
         pp.date_time = date_time
         @points << pp
       end
-      puts "Read #{@points.size} track points"
+      # puts "Read #{@points.size} track points"
     end
 
     def list_distance_speeds
@@ -77,11 +135,24 @@ module GPSSpeed
     end
 
     def print_results
-      puts '%12s  %4s  %4s  %4s  %12s  %12s' % ['Speed [m/s]', '#frm', '#to', '#n', 'time [s]', 'Distance [m]']
+      puts '%20s%10s%10s%10s%20s%20s' % 
+        ["Speed [#{@opt[:speed_fmt]}]", '#frm', '#to', '#n', 'time [s]', "Distance [#{@opt[:length_fmt]}]"]
       (@dist_speed_list[0..39] || []).each do |ds|
-        puts '%12.4f  %4i  %4i  %4i  %12.2f  %12.1f' % [ds.speed_ms, ds.begin, ds.end, ds.end - ds.begin + 1, 
-          ds.dt, ds.distance]
+        puts "%20.4f%10i%10i%10i%20.2f#{length_printf_fmt(20)}" % [speed_conv(ds.speed_ms), ds.begin, 
+          ds.end, ds.end - ds.begin + 1, ds.dt, length_conv(ds.distance)]
       end
+    end
+
+    def speed_conv(speed)
+      speed * SpeedUnits[@opt[:speed_fmt]]
+    end
+
+    def length_conv(length)
+      length * LengthUnits[@opt[:length_fmt]]
+    end
+
+    def length_printf_fmt(width)
+      "%#{width}.#{-Math::log10(LengthUnits[@opt[:length_fmt]]).to_i + 1}f"
     end
   end
 end

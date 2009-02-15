@@ -1,0 +1,92 @@
+= gpsspeed
+
+http://github.com/tallakt/plcutil
+
+== DESCRIPTION:
+
+GPS Track speed calculation utility
+
+== FEATURES/PROBLEMS:
+
+This utility will take a gpx file as input (created for instance by http://www.easygps.com/)
+and display the statistics for the best speeds of the tracks in the file over a certain 
+distance that may be supplied
+
+== SYNOPSIS:
+
+A starting point for using gpsspeed, try the --help option
+
+  gpsspeed --help
+
+  Usage: gpsspeed [options] <input.gpx>
+      -l, --length DIST                Minimum required length (default 500m)
+                                         Accepts km,m,ft,miles,nm
+      -s, --speed-format FMT           Select speed format (default m/s)
+                                         Accepts knots,mph,m/s,km/h
+      -f, --length-format FMT          Select length format (default m)
+                                         Accepts km,m,ft,miles,nm
+      -h, --help                       Show this message
+
+
+A common usage would be to run the command without any special options
+
+  gpsspeed myfile.gpx
+
+Which gives you an output like this
+
+  Speed [m/s]      #frm       #to        #n            time [s]        Distance [m]
+       1.6411         4         9         6               65.00               106.7
+       1.4037        13        19         7               77.00               108.1
+
+The utility finds the highest speeds in the track file over a
+minimum distance. The best runs are listed in descending order
+(ie. fastest run first). To use a different length, use the -l
+parameter
+
+  gpsspeed -l 200m myfile.gpx
+
+To display the results in different units, use the -s and -f 
+options, like this
+
+  gpsspeed -s knots -f nm
+
+Which gives you a result table like this
+
+Speed [knots]      #frm       #to        #n            time [s]       Distance [nm]
+       3.1901         4         9         6               65.00              0.0576
+       2.7285        13        19         7               77.00              0.0584
+                                   
+                                   
+== REQUIREMENTS:
+
+Requires the gem tallakt-geoutm 
+
+== INSTALL:
+
+  sudo gem sources -a http://gems.github.com
+  sudo gem install tallakt-gpsspeed
+
+== LICENSE:
+
+(The MIT License)
+
+Copyright (c) 2009 Tallak Tveide
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
