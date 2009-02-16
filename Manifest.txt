@@ -1,9 +1,6 @@
-bin
 bin/gpsspeed
 gpsspeed.gemspec
 History.txt
-lib
-lib/gpsspeed
 lib/gpsspeed/runner.rb
 lib/gpsspeed.rb
 LICENSE
@@ -11,14 +8,10 @@ Manifest.txt
 PostInstall.txt
 Rakefile
 README.rdoc
-script
 script/console
 script/generate
 script/destroy
-tasks
-test
 test/test_helper.rb
 test/test_gpsspeed.rb
-test/input
 test/input/test_walk.gpx
 test/input/tracks.gpx

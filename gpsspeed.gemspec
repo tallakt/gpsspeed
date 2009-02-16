@@ -6,12 +6,13 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Tallak Tveide"]
-  s.date = %q{2009-02-15}
+  s.date = %q{2009-02-16}
+  s.default_executable = %q{gpsspeed}
   s.description = %q{GPS Track speed calculation utility}
   s.email = ["tallak@tveide.net"]
-  s.executables = ["bin", "gpsspeed"]
+  s.executables = ["gpsspeed"]
   s.extra_rdoc_files = ["History.txt", "Manifest.txt", "PostInstall.txt", "README.rdoc"]
-  s.files = ["bin", "bin/gpsspeed", "gpsspeed.gemspec", "History.txt", "lib", "lib/gpsspeed", "lib/gpsspeed/runner.rb", "lib/gpsspeed.rb", "LICENSE", "Manifest.txt", "PostInstall.txt", "Rakefile", "README.rdoc", "script", "script/console", "script/generate", "script/destroy", "tasks", "test", "test/test_helper.rb", "test/test_gpsspeed.rb", "test/input", "test/input/test_walk.gpx", "test/input/tracks.gpx", "bin/bin"]
+  s.files = ["bin/gpsspeed", "gpsspeed.gemspec", "History.txt", "lib/gpsspeed/runner.rb", "lib/gpsspeed.rb", "LICENSE", "Manifest.txt", "PostInstall.txt", "Rakefile", "README.rdoc", "script/console", "script/generate", "script/destroy", "test/test_helper.rb", "test/test_gpsspeed.rb", "test/input/test_walk.gpx", "test/input/tracks.gpx"]
   s.has_rdoc = true
   s.homepage = %q{http://github.com/tallakt/plcutil}
   s.post_install_message = %q{PostInstall.txt}
