@@ -3,6 +3,7 @@ require 'ostruct'
 require 'geoutm'
 require 'enumerator'
 require 'optparse'
+require 'date'
 
 class FloatA # necessary dt rexml bug
   def each
